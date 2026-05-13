@@ -1,3 +1,4 @@
+import { enableValidation, resetValidation } from "./validate.js";
 // ==========================
 // DATOS INICIALES
 // ==========================
@@ -109,10 +110,26 @@ function renderCard(name, link, container) {
 // Modales
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
+  document.addEventListener("keydown", handleEscClose);
 }
 
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", handleEscClose);
+}
+
+function closePopupByOverlay(evt) {
+  if (evt.target.classList.contains("popup")) {
+    closeModal(evt.target);
+  }
+}
+
+function handleEscClose(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
+
+    closeModal(openedPopup);
+  }
 }
 
 // Perfil
@@ -123,6 +140,7 @@ function fillProfileForm() {
 
 function handleOpenEditModal() {
   fillProfileForm();
+  resetValidation(profileForm);
   openModal(editPopup);
 }
 
@@ -135,6 +153,7 @@ function handleProfileFormSubmit(evt) {
 
 // Nueva tarjeta
 function handleOpenAddCardModal() {
+  resetValidation(newCardForm);
   openModal(newCardPopup);
 }
 
@@ -174,6 +193,9 @@ initialCards.forEach((item) => {
   renderCard(item.name, item.link, cardsList);
 });
 
+enableValidation(profileForm);
+enableValidation(newCardForm);
+
 // ==========================
 // EVENTOS
 // ==========================
@@ -182,18 +204,14 @@ initialCards.forEach((item) => {
 editButton.addEventListener("click", handleOpenEditModal);
 closeButton.addEventListener("click", () => closeModal(editPopup));
 profileForm.addEventListener("submit", handleProfileFormSubmit);
+editPopup.addEventListener("click", closePopupByOverlay);
 
 // Nueva tarjeta
 addButton.addEventListener("click", handleOpenAddCardModal);
 newCardCloseButton.addEventListener("click", () => closeModal(newCardPopup));
 newCardForm.addEventListener("submit", handleCardFormSubmit);
+newCardPopup.addEventListener("click", closePopupByOverlay);
 
 // Imagen popup
 imagePopupCloseButton.addEventListener("click", () => closeModal(imagePopup));
-
-// (Opcional PRO) cerrar clic fuera
-imagePopup.addEventListener("click", (evt) => {
-  if (evt.target === imagePopup) {
-    closeModal(imagePopup);
-  }
-});
+imagePopup.addEventListener("click", closePopupByOverlay);
