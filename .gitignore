@@ -1,0 +1,14 @@
+# Dependencias
+node_modules/
+
+# Archivos generados por TypeScript que no necesitas entregar
+*.map
+*.d.ts
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local del editor
+.vscode/
+.idea/
