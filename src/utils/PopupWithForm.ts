@@ -33,14 +33,12 @@ export default class PopupWithForm extends Popup {
 
     this.formElement.addEventListener("submit", (evt: SubmitEvent) => {
       evt.preventDefault();
-
       this.handleFormSubmit(this.getInputValues());
     });
   }
 
   public override close(): void {
     super.close();
-
     this.formElement.reset();
   }
 }

@@ -8,7 +8,7 @@ export default class UserInfo {
     getUserInfo() {
         return {
             name: this.nameElement.textContent || "",
-            about: this.aboutElement.textContent || ""
+            about: this.aboutElement.textContent || "",
         };
     }
     setUserInfo({ name, about }) {

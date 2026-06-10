@@ -9,25 +9,18 @@ export class FormValidator {
         this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
         this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
     }
-    // ==========================
-    // MOSTRAR EL ERROR
-    // ==========================
     _showInputError(inputElement, errorMessage) {
-        const errorElement = this._formElement.querySelector(`.#${inputElement.id}-error`);
+        const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
         inputElement.classList.add(this._config.inputErrorClass);
+        errorElement.classList.add(this._config.errorClass);
         errorElement.textContent = errorMessage;
     }
-    // ==========================
-    // OCULTAR EL ERROR
-    // ==========================  
     _hideInputError(inputElement) {
         const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
         inputElement.classList.remove(this._config.inputErrorClass);
-        errorElement.textContent = '';
+        errorElement.classList.remove(this._config.errorClass);
+        errorElement.textContent = "";
     }
-    // ==========================
-    // VALIDAR EL INPUT
-    // ==========================       
     _checkInputValidity(inputElement) {
         if (!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
@@ -41,9 +34,6 @@ export class FormValidator {
             return !inputElement.validity.valid;
         });
     }
-    // ==========================
-    // ACTIVAR O DESACTIVAR EL BOTÓN
-    // ==========================       
     _toggleButtonState() {
         if (this._hasInvalidInput()) {
             this._buttonElement.classList.add(this._config.inactiveButtonClass);
@@ -54,28 +44,19 @@ export class FormValidator {
             this._buttonElement.disabled = false;
         }
     }
-    // ==========================
-    //ESCUCHAR DE EVENTOS
-    // ========================== 
     _setEventListeners() {
         this._toggleButtonState();
         this._inputList.forEach((inputElement) => {
-            inputElement.addEventListener('input', (evt) => {
+            inputElement.addEventListener("input", (evt) => {
                 const target = evt.target;
                 this._checkInputValidity(target);
                 this._toggleButtonState();
             });
         });
     }
-    // ==========================
-    //ACTIVAR VALIDACIÓN
-    // ========================== 
     enableValidation() {
         this._setEventListeners();
     }
-    // ==========================
-    // RESETEAR LOS ERRORES
-    // ==========================
     resetValidation() {
         this._inputList.forEach((inputElement) => {
             this._hideInputError(inputElement);

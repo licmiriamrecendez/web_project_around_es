@@ -1,6 +1,6 @@
 import Popup from "./Popup.js";
 
-export default  class PopupWithImage extends Popup {
+export default class PopupWithImage extends Popup {
   private imageElement: HTMLImageElement;
   private captionElement: HTMLElement;
 

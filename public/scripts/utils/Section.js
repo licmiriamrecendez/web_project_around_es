@@ -7,17 +7,11 @@ export default class Section {
         this._renderer = renderer;
         this._container = document.querySelector(containerSelector);
     }
-    // ==========================
-    // Renderiza los elementos 
-    // ========================== 
     renderItems() {
         this._items.forEach((item) => {
             this._renderer(item);
         });
     }
-    // ==========================
-    // Toma un elemento y lo agrega al contenedor
-    // ========================== 
     addItem(element) {
         this._container.prepend(element);
     }
