@@ -1,10 +1,10 @@
 import { defaultFormConfig, initialCards } from "./utils/Constants.js";
-import { FormValidator } from "./utils/FormValidator.js";
-import  Section  from "./utils/Section.js";
-import  Card  from "./utils/Card.js";
-import PopupWithForm   from "./utils/PopupWithForm.js";
-import PopupWithImage   from "./utils/PopupWithImage.js";
-import UserInfo  from "./utils/UserInfo.js";
+import { FormValidator } from "./components/FormValidator.js";
+import  Section  from "./components/Section.js";
+import  Card  from "./components/Card.js";
+import PopupWithForm   from "./components/PopupWithForm.js";
+import PopupWithImage   from "./components/PopupWithImage.js";
+import UserInfo  from "./components/UserInfo.js";
 
 // Botón editar perfil
 const editButton = document.querySelector<HTMLButtonElement>(
