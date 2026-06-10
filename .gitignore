@@ -11,4 +11,4 @@ Thumbs.db
 
 # Configuración local del editor
 .vscode/
-.idea/
+.idea/git status
