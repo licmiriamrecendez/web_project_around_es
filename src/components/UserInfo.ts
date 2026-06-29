@@ -11,10 +11,12 @@ interface UserInfoSelectors {
 export default class UserInfo {
   private nameElement: HTMLElement;
   private aboutElement: HTMLElement;
+  private _userId: string;
 
   constructor({ nameSelector, aboutSelector }: UserInfoSelectors) {
     this.nameElement = document.querySelector<HTMLElement>(nameSelector)!;
     this.aboutElement = document.querySelector<HTMLElement>(aboutSelector)!;
+    this._userId = "";
   }
 
   public getUserInfo(): UserData {
@@ -28,4 +30,12 @@ export default class UserInfo {
     this.nameElement.textContent = name;
     this.aboutElement.textContent = about;
   }
+
+  public setUserId(id: string): void {
+  this._userId = id;
+}
+
+public getUserId(): string {
+  return this._userId;
+}
 }

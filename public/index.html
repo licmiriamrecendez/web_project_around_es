@@ -17,28 +17,49 @@
         />
       </header>
       <main class="content">
-        <section class="profile page__section">
-          <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
-          <div class="profile__info">
-            <h1 class="profile__title">Jacques Cousteau</h1>
-            <button
-              aria-label="Editar perfil"
-              class="profile__edit-button"
-              type="button"
-            ></button>
-            <p class="profile__description">Explorador</p>
-          </div>
-          <button
-            aria-label="Agregar tarjeta"
-            class="profile__add-button"
-            type="button"
-          ></button>
-        </section>
-        <section class="cards page__section">
-          <ul class="cards__list"></ul>
-        </section>
-      </main>
-      <footer class="footer page__section">
+       <section class="profile page__section">
+
+  <div class="profile__avatar-container">
+    <img
+      class="profile__image"
+      src="./images/avatar.jpg"
+      alt="Avatar"
+    />
+
+    <button
+      class="profile__avatar-edit-button"
+      type="button"
+      aria-label="Editar avatar"
+    ></button>
+  </div>
+
+  <div class="profile__info">
+    <h1 class="profile__title">Jacques Cousteau</h1>
+
+    <button
+      aria-label="Editar perfil"
+      class="profile__edit-button"
+      type="button"
+    ></button>
+
+    <p class="profile__description">Explorador</p>
+  </div>
+
+  <button
+    aria-label="Agregar tarjeta"
+    class="profile__add-button"
+    type="button"
+  ></button>
+
+</section>
+
+<section class="cards page__section">
+  <ul class="cards__list"></ul>
+</section>
+
+</main>
+
+<footer class="footer page__section">
         <p class="footer__copyright">© 2025 Around The U.S.</p>
       </footer>
       <div class="popup" id="edit-popup">
@@ -80,6 +101,7 @@
           </form>
         </div>
       </div>
+
       <div class="popup" id="new-card-popup">
         <div class="popup__content">
           <button
@@ -98,10 +120,10 @@
               minlength="2"
               maxlength="30"
               id="card-name-input"
-              />
+            />
 
-              <span class="popup__error" id="card-name-input-error"></span>
-            
+            <span class="popup__error" id="card-name-input-error"></span>
+
             <input
               class="popup__input popup__input_type_url"
               name="link"
@@ -109,13 +131,14 @@
               required
               type="url"
               id="card-link-input"
-              />
-              <span class="popup__error" id="card-link-input-error"></span>
-            
-            <button type="submit" class="popup__button" >Crear</button>
+            />
+            <span class="popup__error" id="card-link-input-error"></span>
+
+            <button type="submit" class="popup__button">Crear</button>
           </form>
         </div>
       </div>
+
 <div class="popup" id="image-popup">
   <div class="popup__content popup__content_content_image">
     <button class="popup__close" type="button"></button>
@@ -123,24 +146,87 @@
     <p class="popup__caption"></p>
   </div>
 </div>
-        <template id="card-template">
-          <li class="card">
-            <img class="card__image" src="" alt="" />
-            <button
-              aria-label="Eliminar tarjeta"
-              class="card__delete-button"
-              type="button"
-            ></button>
-            <div class="card__description">
-              <h2 class="card__title"></h2>
-              <button
-                aria-label="Botón Me gusta"
-                class="card__like-button"
-                type="button"
-              ></button>
-            </div>
-          </li>
-        </template>
+
+<div class="popup" id="delete-card-popup">
+  <div class="popup__content">
+    <button
+      aria-label="Cerrar ventana emergente"
+      class="popup__close"
+      type="button"
+    ></button>
+
+    <h3 class="popup__title">
+      ¿Estás seguro/a?
+    </h3>
+
+    <form class="popup__form" id="delete-card-form">
+      <button
+        type="submit"
+        class="popup__button"
+      >
+        Sí
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="popup" id="avatar-popup">
+  <div class="popup__content">
+    <button
+      aria-label="Cerrar ventana emergente"
+      class="popup__close"
+      type="button"
+    ></button>
+
+    <h3 class="popup__title">Cambiar foto de perfil</h3>
+
+    <form class="popup__form" id="avatar-form">
+      <input
+        class="popup__input"
+        id="avatar-input"
+        name="avatar"
+        type="url"
+        placeholder="Enlace de la imagen"
+        required
+      />
+
+      <span
+        class="popup__error"
+        id="avatar-input-error"
+      ></span>
+
+      <button
+        type="submit"
+        class="popup__button"
+      >
+        Guardar
+      </button>
+    </form>
+  </div>
+</div>
+
+<template id="card-template">
+  <li class="card">
+    <img class="card__image" src="" alt="" />
+
+    <button
+      aria-label="Eliminar tarjeta"
+      class="card__delete-button"
+      type="button"
+    ></button>
+
+    <div class="card__description">
+      <h2 class="card__title"></h2>
+
+      <button
+        aria-label="Botón Me gusta"
+        class="card__like-button"
+        type="button"
+      ></button>
+    </div>
+  </li>
+</template>
+
       </div>
     </div>
     <script type="module" src="./scripts/index.js"></script>

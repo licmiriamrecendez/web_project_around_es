@@ -91,4 +91,8 @@ export class FormValidator {
     });
     this._toggleButtonState();
   }
+  public disableButton(): void {
+  this._buttonElement.classList.add(this._config.inactiveButtonClass);
+  this._buttonElement.disabled = true;
+}
 }

@@ -8,10 +8,18 @@ export default class Section<T> {
   private _renderer: (item: T) => void;
   private _container: HTMLElement;
 
-  constructor({ items, renderer }: SectionProps<T>, containerSelector: string) {
+  constructor(
+    { items, renderer }: SectionProps<T>,
+    containerSelector: string
+  ) {
     this._items = items;
     this._renderer = renderer;
-    this._container = document.querySelector(containerSelector) as HTMLElement;
+
+    this._container = document.querySelector(
+      containerSelector
+    ) as HTMLElement;
+
+    console.log("CONTENEDOR:", this._container);
   }
 
   public renderItems(): void {
@@ -21,6 +29,8 @@ export default class Section<T> {
   }
 
   public addItem(element: HTMLElement): void {
+    console.log("ADD ITEM:", this._container);
+
     this._container.prepend(element);
   }
 }

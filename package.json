@@ -1,0 +1,24 @@
+{
+  "name": "web_project_around_es",
+  "version": "1.0.0",
+  "description": "Around The U.S. es una aplicación web interactiva que permite a los usuarios ver y disfrutar una colección de tarjetas con imágenes de diferentes lugares. El usuario puede editar la información de su perfil, agregar nuevas tarjetas, dar \"me gusta\" a las publicaciones y visualizar las imágenes en una ventana emergente.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/licmiriamrecendez/web_project_around_es.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/licmiriamrecendez/web_project_around_es/issues"
+  },
+  "homepage": "https://github.com/licmiriamrecendez/web_project_around_es#readme",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
