@@ -166,8 +166,13 @@ const avatarPopup = new PopupWithForm("#avatar-popup", (data) => {
 
 avatarPopup.setEventListeners();
 
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([user, cards]) => {
+async function loadInitialData(): Promise<void> {
+  try {
+    const [user, cards] = await Promise.all([
+      api.getUserInfo(),
+      api.getInitialCards(),
+    ]);
+
     userInfo.setUserInfo({
       name: user.name,
       about: user.about,
@@ -187,11 +192,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     );
 
     cardSection.renderItems();
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("Fallo al cargar datos iniciales:", err);
-  });
+  }
+}
 
+loadInitialData();
 editButton.addEventListener("click", () => {
   const userData = userInfo.getUserInfo();
 

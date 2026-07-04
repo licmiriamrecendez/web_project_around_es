@@ -19,7 +19,6 @@ export default class Section<T> {
       containerSelector
     ) as HTMLElement;
 
-    console.log("CONTENEDOR:", this._container);
   }
 
   public renderItems(): void {
@@ -29,7 +28,6 @@ export default class Section<T> {
   }
 
   public addItem(element: HTMLElement): void {
-    console.log("ADD ITEM:", this._container);
 
     this._container.prepend(element);
   }
