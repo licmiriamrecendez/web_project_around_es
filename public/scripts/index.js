@@ -45,108 +45,119 @@ function createCard(cardData) {
         cardToDelete = card;
         cardIdToDelete = cardData._id;
         deleteCardPopup.open();
-    }, () => {
-        const likeRequest = card.isLiked()
-            ? api.removeLike(cardData._id)
-            : api.addLike(cardData._id);
-        likeRequest
-            .then((updatedCard) => {
+    }, async () => {
+        try {
+            const updatedCard = card.isLiked()
+                ? await api.removeLike(cardData._id)
+                : await api.addLike(cardData._id);
             card.setLikeState(updatedCard);
-        })
-            .catch(console.error);
+        }
+        catch (err) {
+            console.error("Error al cambiar like:", err);
+        }
     });
     return card.generateCard();
 }
-const deleteCardPopup = new PopupWithConfirmation("#delete-card-popup", () => {
+const deleteCardPopup = new PopupWithConfirmation("#delete-card-popup", async () => {
     if (!cardToDelete || !cardIdToDelete)
         return;
-    api
-        .deleteCard(cardIdToDelete)
-        .then(() => {
-        cardToDelete?.deleteCard();
+    try {
+        await api.deleteCard(cardIdToDelete);
+        cardToDelete.deleteCard();
         deleteCardPopup.close();
         cardToDelete = null;
         cardIdToDelete = null;
-    })
-        .catch(console.error);
+    }
+    catch (err) {
+        console.error("Error al eliminar tarjeta:", err);
+    }
 });
 deleteCardPopup.setEventListeners();
-const editProfilePopup = new PopupWithForm("#edit-popup", (data) => {
+const editProfilePopup = new PopupWithForm("#edit-popup", async (data) => {
     editProfilePopup.renderLoading(true);
-    api
-        .editUserInfo({
-        name: data.name,
-        about: data.description,
-    })
-        .then((user) => {
+    try {
+        const user = await api.editUserInfo({
+            name: data.name,
+            about: data.description,
+        });
         userInfo.setUserInfo({
             name: user.name,
             about: user.about,
         });
         editProfilePopup.close();
-    })
-        .catch(console.error)
-        .finally(() => {
+    }
+    catch (err) {
+        console.error("Error al editar perfil:", err);
+    }
+    finally {
         editProfilePopup.renderLoading(false);
-    });
+    }
 });
 editProfilePopup.setEventListeners();
-const newCardPopup = new PopupWithForm("#new-card-popup", (data) => {
+const newCardPopup = new PopupWithForm("#new-card-popup", async (data) => {
     newCardPopup.renderLoading(true);
-    api
-        .addCard({
-        name: data["place-name"],
-        link: data.link,
-    })
-        .then((cardData) => {
+    try {
+        const cardData = await api.addCard({
+            name: data["place-name"],
+            link: data.link,
+        });
         cardSection.addItem(createCard(cardData));
         newCardPopup.close();
         newCardForm.reset();
         newCardValidator.disableButton();
-    })
-        .catch(console.error)
-        .finally(() => {
+    }
+    catch (err) {
+        console.error("Error al agregar tarjeta:", err);
+    }
+    finally {
         newCardPopup.renderLoading(false);
-    });
+    }
 });
 newCardPopup.setEventListeners();
-const avatarPopup = new PopupWithForm("#avatar-popup", (data) => {
+const avatarPopup = new PopupWithForm("#avatar-popup", async (data) => {
     avatarPopup.renderLoading(true);
-    api
-        .updateAvatar({
-        avatar: data.avatar,
-    })
-        .then((user) => {
+    try {
+        const user = await api.updateAvatar({
+            avatar: data.avatar,
+        });
         profileImage.src = user.avatar;
         avatarPopup.close();
         avatarForm.reset();
         avatarValidator.disableButton();
-    })
-        .catch(console.error)
-        .finally(() => {
+    }
+    catch (err) {
+        console.error("Error al actualizar avatar:", err);
+    }
+    finally {
         avatarPopup.renderLoading(false);
-    });
+    }
 });
 avatarPopup.setEventListeners();
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([user, cards]) => {
-    userInfo.setUserInfo({
-        name: user.name,
-        about: user.about,
-    });
-    userInfo.setUserId(user._id);
-    profileImage.src = user.avatar;
-    cardSection = new Section({
-        items: cards,
-        renderer: (item) => {
-            cardSection.addItem(createCard(item));
-        },
-    }, ".cards__list");
-    cardSection.renderItems();
-})
-    .catch((err) => {
-    console.error("Fallo al cargar datos iniciales:", err);
-});
+async function loadInitialData() {
+    try {
+        const [user, cards] = await Promise.all([
+            api.getUserInfo(),
+            api.getInitialCards(),
+        ]);
+        userInfo.setUserInfo({
+            name: user.name,
+            about: user.about,
+        });
+        userInfo.setUserId(user._id);
+        profileImage.src = user.avatar;
+        cardSection = new Section({
+            items: cards,
+            renderer: (item) => {
+                cardSection.addItem(createCard(item));
+            },
+        }, ".cards__list");
+        cardSection.renderItems();
+    }
+    catch (err) {
+        console.error("Fallo al cargar datos iniciales:", err);
+    }
+}
+loadInitialData();
 editButton.addEventListener("click", () => {
     const userData = userInfo.getUserInfo();
     profileNameInput.value = userData.name;

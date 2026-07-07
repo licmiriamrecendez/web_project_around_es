@@ -121,8 +121,8 @@ export default class Card {
     cardImage.alt = this._data.name;
 
     if (this._data.owner !== this._userId) {
-      deleteButton?.remove();
-    }
+  deleteButton?.remove();
+}
 
     this._renderLike();
     this._setEventListeners();

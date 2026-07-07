@@ -4,7 +4,9 @@
   "description": "Around The U.S. es una aplicación web interactiva que permite a los usuarios ver y disfrutar una colección de tarjetas con imágenes de diferentes lugares. El usuario puede editar la información de su perfil, agregar nuevas tarjetas, dar \"me gusta\" a las publicaciones y visualizar las imágenes en una ventana emergente.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",

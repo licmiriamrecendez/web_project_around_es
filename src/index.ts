@@ -64,104 +64,105 @@ function createCard(cardData: CardData): HTMLElement {
       deleteCardPopup.open();
     },
 
-    () => {
-      const likeRequest = card.isLiked()
-        ? api.removeLike(cardData._id)
-        : api.addLike(cardData._id);
+     async () => {
+      try {
+        const updatedCard = card.isLiked()
+          ? await api.removeLike(cardData._id)
+          : await api.addLike(cardData._id);
 
-      likeRequest
-        .then((updatedCard) => {
-          card.setLikeState(updatedCard);
-        })
-        .catch(console.error);
+        card.setLikeState(updatedCard);
+      } catch (err) {
+        console.error("Error al cambiar like:", err);
+      }
     }
   );
 
   return card.generateCard();
 }
 
-const deleteCardPopup = new PopupWithConfirmation("#delete-card-popup", () => {
+const deleteCardPopup = new PopupWithConfirmation("#delete-card-popup", async () => {
   if (!cardToDelete || !cardIdToDelete) return;
 
-  api
-    .deleteCard(cardIdToDelete)
-    .then(() => {
-      cardToDelete?.deleteCard();
-      deleteCardPopup.close();
+  try {
+    await api.deleteCard(cardIdToDelete);
 
-      cardToDelete = null;
-      cardIdToDelete = null;
-    })
-    .catch(console.error);
+    cardToDelete.deleteCard();
+    deleteCardPopup.close();
+
+    cardToDelete = null;
+    cardIdToDelete = null;
+  } catch (err) {
+    console.error("Error al eliminar tarjeta:", err);
+  }
 });
 
 deleteCardPopup.setEventListeners();
 
-const editProfilePopup = new PopupWithForm("#edit-popup", (data) => {
+const editProfilePopup = new PopupWithForm("#edit-popup", async (data) => {
   editProfilePopup.renderLoading(true);
 
-  api
-    .editUserInfo({
+  try {
+    const user = await api.editUserInfo({
       name: data.name!,
       about: data.description!,
-    })
-    .then((user) => {
-      userInfo.setUserInfo({
-        name: user.name,
-        about: user.about,
-      });
-
-      editProfilePopup.close();
-    })
-    .catch(console.error)
-    .finally(() => {
-      editProfilePopup.renderLoading(false);
     });
+
+    userInfo.setUserInfo({
+      name: user.name,
+      about: user.about,
+    });
+
+    editProfilePopup.close();
+  } catch (err) {
+    console.error("Error al editar perfil:", err);
+  } finally {
+    editProfilePopup.renderLoading(false);
+  }
 });
 
 editProfilePopup.setEventListeners();
 
-const newCardPopup = new PopupWithForm("#new-card-popup", (data) => {
+const newCardPopup = new PopupWithForm("#new-card-popup", async (data) => {
   newCardPopup.renderLoading(true);
 
-  api
-    .addCard({
+  try {
+    const cardData = await api.addCard({
       name: data["place-name"]!,
       link: data.link!,
-    })
-    .then((cardData) => {
-      cardSection.addItem(createCard(cardData));
-
-      newCardPopup.close();
-      newCardForm.reset();
-      newCardValidator.disableButton();
-    })
-    .catch(console.error)
-    .finally(() => {
-      newCardPopup.renderLoading(false);
     });
+
+    cardSection.addItem(createCard(cardData));
+
+    newCardPopup.close();
+    newCardForm.reset();
+    newCardValidator.disableButton();
+  } catch (err) {
+    console.error("Error al agregar tarjeta:", err);
+  } finally {
+    newCardPopup.renderLoading(false);
+  }
 });
 
 newCardPopup.setEventListeners();
 
-const avatarPopup = new PopupWithForm("#avatar-popup", (data) => {
+const avatarPopup = new PopupWithForm("#avatar-popup", async (data) => {
   avatarPopup.renderLoading(true);
 
-  api
-    .updateAvatar({
+  try {
+    const user = await api.updateAvatar({
       avatar: data.avatar!,
-    })
-    .then((user) => {
-      profileImage.src = user.avatar;
-
-      avatarPopup.close();
-      avatarForm.reset();
-      avatarValidator.disableButton();
-    })
-    .catch(console.error)
-    .finally(() => {
-      avatarPopup.renderLoading(false);
     });
+
+    profileImage.src = user.avatar;
+
+    avatarPopup.close();
+    avatarForm.reset();
+    avatarValidator.disableButton();
+  } catch (err) {
+    console.error("Error al actualizar avatar:", err);
+  } finally {
+    avatarPopup.renderLoading(false);
+  }
 });
 
 avatarPopup.setEventListeners();

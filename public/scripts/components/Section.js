@@ -6,7 +6,6 @@ export default class Section {
         this._items = items;
         this._renderer = renderer;
         this._container = document.querySelector(containerSelector);
-        console.log("CONTENEDOR:", this._container);
     }
     renderItems() {
         this._items.forEach((item) => {
@@ -14,7 +13,6 @@ export default class Section {
         });
     }
     addItem(element) {
-        console.log("ADD ITEM:", this._container);
         this._container.prepend(element);
     }
 }
